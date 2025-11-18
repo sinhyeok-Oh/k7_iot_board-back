@@ -1,4 +1,7 @@
 package org.example.boardback.common.enums;
 
-public class RoleType {
+public enum RoleType {
+    USER,
+    MANAGER,
+    ADMIN
 }

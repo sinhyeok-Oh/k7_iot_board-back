@@ -1,4 +1,4 @@
-package org.example.boardback.common.emuns;
+package org.example.boardback.common.enums;
 
-public class Border {
+public enum Gender {
 }
