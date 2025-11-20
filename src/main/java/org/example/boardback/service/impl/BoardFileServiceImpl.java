@@ -2,6 +2,7 @@ package org.example.boardback.service.impl;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.example.boardback.common.enums.ErrorCode;
 import org.example.boardback.dto.board.file.BoardFileListDto;
 import org.example.boardback.dto.board.file.BoardFileUpdateRequestDto;
 import org.example.boardback.entity.board.Board;
@@ -70,7 +71,7 @@ public class BoardFileServiceImpl {
     /** 파일 정보를 DB에서 조회 */
     public FileInfo getFileInfo(Long fileId) {
         return fileInfoRepository.findById(fileId)
-                .orElseThrow(() -> new FileStorageException("파일 정보를 찾을 수 없습니다."));
+                .orElseThrow(() -> new FileStorageException(ErrorCode.INTERNAL_ERROR));
     }
 
     public Path loadFile(Long fileId) {
@@ -79,7 +80,7 @@ public class BoardFileServiceImpl {
         Path path = Paths.get(fileInfo.getFilePath());
 
         if (!Files.exists(path) || !Files.isReadable(path)) {
-            throw new FileStorageException("파일이 존재하지 않거나 읽을 수 없습니다.");
+            throw new FileStorageException(ErrorCode.INTERNAL_ERROR);
         }
 
         return path;
@@ -124,7 +125,7 @@ public class BoardFileServiceImpl {
     @Transactional
     public void deleteBoardFile(Long fileId) {
         BoardFile boardFile = boardFileRepository.findByFileInfoId(fileId)
-                .orElseThrow(() -> new FileStorageException("해당 파일은 게시글에 존재하지 않습니다."));
+                .orElseThrow(() -> new FileStorageException(ErrorCode.INTERNAL_ERROR));
 
         FileInfo fileInfo = boardFile.getFileInfo();
 

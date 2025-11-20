@@ -42,10 +42,11 @@ public class BoardFileController {
             return ResponseEntity.noContent().build(); // 204 No Content
         }
 
+        System.out.println("files" + files);
         return ResponseEntity.ok(files); // 200 OK
     }
 
-    @GetMapping("/file/download/{fileId}")
+    @GetMapping("/files/{fileId}/download")
     public ResponseEntity<Resource> download(@PathVariable Long fileId) {
         // service 에서 파일 정보 조회
         FileInfo info = boardFileService.getFileInfo(fileId);
@@ -65,7 +66,7 @@ public class BoardFileController {
                 .body(resource);
     }
 
-    @DeleteMapping("/file/{fileId}")
+    @DeleteMapping("/files/{fileId}")
     public ResponseEntity<Void> deleteBoardFile(@PathVariable Long fileId) {
         boardFileService.deleteBoardFile(fileId);
         return ResponseEntity.noContent().build();
